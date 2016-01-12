@@ -21,10 +21,3 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)' -j 1 install
     cd '$(1)/src/serialport' && $(MAKE) -f Makefile.Release install
 endef
-
-define $(PKG)_BUILD_SHARED
-    cd '$(1)' && '$(PREFIX)/$(TARGET)/qt/bin/qmake'
-    $(MAKE) -C '$(1)' -j '$(JOBS)'
-    $(MAKE) -C '$(1)' -j 1 install
-    cd '$(1)/src/serialport' && $(MAKE) -f Makefile.Release install
-endef
