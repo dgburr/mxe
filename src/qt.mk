@@ -26,13 +26,13 @@ define $(PKG)_BUILD
         SYBASE_LIBS="-lsybdb `'$(TARGET)-pkg-config' --libs-only-l gnutls` -liconv -lws2_32" \
         ./configure \
         -opensource \
+        -debug-and-release \
         -confirm-license \
         -fast \
         -xplatform win32-g++-4.6 \
         -device-option CROSS_COMPILE=$(TARGET)- \
         -device-option PKG_CONFIG='$(TARGET)-pkg-config' \
         -force-pkg-config \
-        -release \
         -exceptions \
         -static \
         -prefix '$(PREFIX)/$(TARGET)/qt' \
@@ -80,6 +80,7 @@ define $(PKG)_BUILD
     # sed on the output instead of patching the input
     $(MAKE) -C '$(1)/tools/assistant' sub-lib-qmake_all
     $(SED) -i 's,-lQtCLucene$$,-lQtCLucene4,' '$(1)/tools/assistant/lib/Makefile.Release'
+    $(SED) -i 's,-lQtCLucened$$,-lQtCLucened4,' '$(1)/tools/assistant/lib/Makefile.Debug'
     $(MAKE) -C '$(1)/tools/assistant' -j '$(JOBS)' install
 
     # likewise for these two
