@@ -21,5 +21,5 @@ define $(PKG)_BUILD
     $(MAKE) -C '$(1)' -j 1 install
     cd '$(1)/src/serialport' && $(MAKE) -f Makefile.Release install
     # install one of the test programs
-    cp -f '$(1)/examples/serialport/cenumerator/debug/cenumerator.exe' '$(PREFIX)/$(TARGET)/bin/test-qtserialport_qt4.exe'
+    cp -f '$(1)/examples/serialport/cenumerator/release/cenumerator.exe' '$(PREFIX)/$(TARGET)/bin/test-qtserialport_qt4.exe'
 endef
