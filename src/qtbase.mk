@@ -33,7 +33,7 @@ define $(PKG)_BUILD
             -device-option PKG_CONFIG='${TARGET}-pkg-config' \
             -force-pkg-config \
             -no-use-gold-linker \
-            -release \
+            -debug-and-release \
             -static \
             -prefix '$(PREFIX)/$(TARGET)/qt5' \
             -no-icu \
@@ -60,16 +60,14 @@ define $(PKG)_BUILD
             -dbus-linked \
             -v
 
-    # invoke qmake with removed debug options as a workaround for
-    # https://bugreports.qt-project.org/browse/QTBUG-30898
-    $(MAKE) -C '$(1)' -j '$(JOBS)' QMAKE="$(1)/bin/qmake CONFIG-='debug debug_and_release'"
+    $(MAKE) -C '$(1)' -j '$(JOBS)' QMAKE="$(1)/bin/qmake"
     rm -rf '$(PREFIX)/$(TARGET)/qt5'
     $(MAKE) -C '$(1)' -j 1 install
     ln -sf '$(PREFIX)/$(TARGET)/qt5/bin/qmake' '$(PREFIX)/bin/$(TARGET)'-qmake-qt5
 
     mkdir            '$(1)/test-qt'
     cd               '$(1)/test-qt' && '$(PREFIX)/$(TARGET)/qt5/bin/qmake' '$(PWD)/src/qt-test.pro'
-    $(MAKE)       -C '$(1)/test-qt' -j '$(JOBS)'
+    $(MAKE)       -C '$(1)/test-qt' -j '$(JOBS)' release debug
     $(INSTALL) -m755 '$(1)/test-qt/release/test-qt5.exe' '$(PREFIX)/$(TARGET)/bin/'
 
     # build test the manual way
