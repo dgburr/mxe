@@ -17,7 +17,9 @@ $(PKG)_UPDATE   := $(call MXE_GET_GITHUB_SHA, $($(PKG)_GH_USER)/$($(PKG)_GH_REPO
 
 define $(PKG)_BUILD
     cd '$(1)' && '$(PREFIX)/$(TARGET)/qt/bin/qmake'
-    $(MAKE) -C '$(1)' -j '$(JOBS)'
+    $(MAKE) -C '$(1)' -j '$(JOBS)' debug release
     $(MAKE) -C '$(1)' -j 1 install
     cd '$(1)/src/serialport' && $(MAKE) -f Makefile.Release install
+    # install one of the test programs
+    cp -f '$(1)/examples/serialport/cenumerator/release/cenumerator.exe' '$(PREFIX)/$(TARGET)/bin/test-qtserialport_qt4.exe'
 endef
