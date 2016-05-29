@@ -24,7 +24,7 @@ define $(PKG)_BUILD
         $(MXE_CONFIGURE_OPTS) \
         --enable-threads=win32 \
         --without-libexpat-prefix \
-        --without-libxml2-prefix \
+        --with-included-libxml \
         CONFIG_SHELL=$(SHELL)
     $(MAKE) -C '$(1)/gettext-runtime/intl' -j '$(JOBS)' install
 endef
